@@ -106,11 +106,13 @@ func sync() error {
 	for k := range addedProviders {
 		addedCount++
 		p := exportedProviders[k]
-		fmt.Printf("Cloning [%d/%d] %s\n", addedCount, len(addedProviders), k)
-		_, err = git.PlainClone(filepath.Join(repositoriesPath, k), false, &git.CloneOptions{
-			URL:               p.Attributes.Source,
-			RecurseSubmodules: git.DefaultSubmoduleRecursionDepth,
-		})
+		if p.Attributes.Name == "google" {
+			fmt.Printf("Cloning [%d/%d] %s\n", addedCount, len(addedProviders), k)
+			_, err = git.PlainClone(filepath.Join(repositoriesPath, k), false, &git.CloneOptions{
+				URL:               p.Attributes.Source,
+				RecurseSubmodules: git.DefaultSubmoduleRecursionDepth,
+			})
+		}
 		if err != nil && err != transport.ErrAuthenticationRequired {
 			return fmt.Errorf("failed to clone %q %q: %w", k, p.Attributes.Source, err)
 		}
