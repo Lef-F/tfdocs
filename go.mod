@@ -1,4 +1,4 @@
-module github.com/cycloidio/tfdocs
+module github.com/Lef-F/tfdocs
 
 go 1.15
 
